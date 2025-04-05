@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Secure To-Do App</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav>
+    <% if (user) { %>
+      <span>Welcome, <%= user.username %>!</span>
+      <a href="/logout">Logout</a>
+    <% } else { %>
+      <a href="/login">Login</a> | <a href="/register">Register</a>
+    <% } %>
+  </nav>
+  <h2>Register</h2>
+  <% if (errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+  <form action="/register" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div>
+      <label>Username:</label>
+      <input type="text" name="username" required>
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" name="password" required>
+    </div>
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>
