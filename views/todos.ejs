@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your To-Dos - Insecure To-Do App</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav>
+    <% if (typeof user !== 'undefined' && user) { %>
+      <span>Welcome, <%= user.username %>!</span>
+      <a href="/logout">Logout</a>
+    <% } else { %>
+      <a href="/login">Login</a> | <a href="/register">Register</a>
+    <% } %>
+  </nav>
+  <h2>Your To-Dos</h2>
+  <form action="/todos/add" method="POST">
+    <input type="text" name="task" placeholder="New Task" required>
+    <button type="submit">Add Task</button>
+  </form>
+  <ul>
+    <% todos.forEach(function(todo) { %>
+      <li>
+        <% if (todo.completed) { %>
+          <s><%- todo.task %></s>
+        <% } else { %>
+          <%- todo.task %>
+        <% } %>
+        <% if (!todo.completed) { %>
+          <form action="/todos/complete" method="POST" style="display:inline;">
+            <input type="hidden" name="id" value="<%= todo.id %>">
+            <button type="submit">Complete</button>
+          </form>
+        <% } %>
+        <form action="/todos/delete" method="POST" style="display:inline;">
+          <input type="hidden" name="id" value="<%= todo.id %>">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>
